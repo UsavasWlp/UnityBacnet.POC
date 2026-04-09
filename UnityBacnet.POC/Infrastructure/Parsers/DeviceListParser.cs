@@ -6,7 +6,7 @@ using UnityBacnet.POC.Domain;
 
 namespace UnityBacnet.POC.Infrastructure.Parsers
 {
-    // Infrastructure/Parsers/DeviceListParser.cs
+    
     public class DeviceListParser
     {
         public List<BacnetDevice> Parse(string filePath)

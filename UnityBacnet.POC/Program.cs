@@ -12,6 +12,8 @@ class Program
 {
     static void Main(string[] args)
     {
+
+        //Merge
         var parser = new DeviceListParser();
         var devices = parser.Parse("device-list.txt");
 
@@ -24,6 +26,16 @@ class Program
         foreach (var d in merged.Take(10))
         {
             Console.WriteLine($"{d.DeviceId} - {d.Name} - Temp: {d.Temperature} - Alarm: {d.HasAlarm}");
+        }
+
+        //Mapping
+        var mappingService = new MappingService();
+
+        var mapped = merged.Select(d => mappingService.Map(d)).ToList();
+
+        foreach (var m in mapped.Take(10))
+        {
+            Console.WriteLine($"{m.AssetId} - {m.AssetType} - {m.Value}");
         }
 
         //Example parsing data
