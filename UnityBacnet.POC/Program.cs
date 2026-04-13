@@ -9,6 +9,7 @@ using UnityBacnet.POC.Application.Metrics;
 using UnityBacnet.POC.Application.Services;
 using UnityBacnet.POC.Domain;
 using UnityBacnet.POC.Infrastructure.Bacnet;
+using UnityBacnet.POC.Infrastructure.Config;
 using UnityBacnet.POC.Infrastructure.Parsers;
 
 class Program
@@ -32,10 +33,13 @@ class Program
         var merged = mergeService.Merge(devices, readings);
 
 
-        //Mapping
-        var mappingService = new MappingService();
+
+        //Mapping and config loader
+        var configLoader = new MappingConfigLoader();
+        var mappingDict = configLoader.Load("mapping.json");
+
+        var mappingService = new MappingService(mappingDict);
         var mapped = new List<UnityAssetReading>();
-        //var mapped = merged.Select(d => mappingService.Map(d)).ToList();
 
         foreach (var device in merged) {
 

@@ -7,11 +7,18 @@ namespace UnityBacnet.POC.Application.Services
 {
     public class MappingService
     {
+        private readonly Dictionary<string, string> _mapping;
+
+        public MappingService(Dictionary<string, string> mapping)
+        {
+            _mapping = mapping;
+        }
+
         public UnityAssetReading Map(DeviceWithReading device)
         {
             return new UnityAssetReading
             {
-                AssetId = device.DeviceId, // for now direct
+                AssetId = device.DeviceId,
                 AssetType = MapDeviceType(device.Name),
                 Value = device.Temperature,
                 ReadingType = "Temperature",
@@ -21,14 +28,11 @@ namespace UnityBacnet.POC.Application.Services
 
         private string MapDeviceType(string name)
         {
-            if (name.Contains("RTU"))
-                return "HVAC";
-
-            if (name.Contains("GEN"))
-                return "Generator";
-
-            if (name.Contains("VAV"))
-                return "Ventilation";
+            foreach (var key in _mapping.Keys)
+            {
+                if (name.Contains(key))
+                    return _mapping[key];
+            }
 
             return "Unknown";
         }
