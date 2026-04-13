@@ -11,7 +11,7 @@ namespace UnityBacnet.POC.Application.Services
         {
             return new UnityAssetReading
             {
-                AssetId = device.DeviceId, // şimdilik direkt
+                AssetId = device.DeviceId, // for now direct
                 AssetType = MapDeviceType(device.Name),
                 Value = device.Temperature,
                 ReadingType = "Temperature",
