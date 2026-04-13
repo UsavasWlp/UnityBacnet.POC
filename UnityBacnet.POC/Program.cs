@@ -20,18 +20,33 @@ class Program
         var stopwatch = System.Diagnostics.Stopwatch.StartNew();
         int errorCount = 0;
 
+        //Alarm Service
+        var alarmService = new AlarmRuleService();
+
         //Example parsing data
         var parser = new DeviceListParser();
         var devices = parser.Parse("device-list.txt");
-       
+        #region Example Parsed Data
+        Console.WriteLine("----- DEVICES -----");
+        foreach (var d in devices.Take(10))
+        {
+            Console.WriteLine($"{d.DeviceId} / {d.Model} - {d.Name} / {d.Network} / {d.Status}");
+        }
+        #endregion
+
+
         //Mock Data
         var mockService = new MockBacnetService();
         var readings = mockService.GenerateReadings(devices);
+        var processedReadings = readings
+        .Select(r => alarmService.ApplyRules(r))
+        .ToList();
+
+
 
         //Merge
         var mergeService = new DeviceMergeService();
-        var merged = mergeService.Merge(devices, readings);
-
+        var merged = mergeService.Merge(devices, processedReadings);
 
 
         //Mapping and config loader
@@ -54,6 +69,15 @@ class Program
                 Console.WriteLine(e.ToString());
             }
         }
+
+        #region Example Mapped Data
+        Console.WriteLine("----- MAPPED DATA -----");
+        foreach (var d in mapped.Take(10))
+        {
+            Console.WriteLine($"{d.AssetId} - {d.AssetType} - {d.Value} - {d.HasAlarm}");
+        }
+        #endregion
+
         //stop timer
         stopwatch.Stop();
 
