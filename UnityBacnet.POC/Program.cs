@@ -61,7 +61,7 @@ class Program
             try
             {
                 mapped.Add(mappingService.Map(device));
-                
+
             }
             catch (Exception e)
             {
@@ -72,9 +72,9 @@ class Program
 
         #region Example Mapped Data
         Console.WriteLine("----- MAPPED DATA -----");
-        foreach (var d in mapped.Take(10))
+        foreach (var d in mapped.Take(20))
         {
-            Console.WriteLine($"{d.AssetId} - {d.AssetType} - {d.Value} - {d.HasAlarm}");
+            Console.WriteLine($"ID:{d.AssetId} | Type:{d.AssetType} | Temp:{d.Value.ToString("F2")} | Alarm:{d.HasAlarm}");
         }
         #endregion
 

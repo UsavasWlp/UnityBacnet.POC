@@ -1,5 +1,10 @@
 {
   "RTU": "HVAC",
   "GEN": "Generator",
-  "VAV": "Ventilation"
+  "VAV": "Ventilation",
+  "SS": "SensorSystem",
+  "ProAir": "HVAC-ProAir",
+  "ProZone": "ZoneControl",
+  "ProWebCom": "Controller",
+  "ProWeb": "Controller"
 }
